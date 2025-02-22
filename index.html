@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #ff9800;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+        }
+        input {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            border: none;
+            background: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .services {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px;
+            width: 200px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            text-align: center;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .carousel {
+            width: 90%;
+            height: 300px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .slide img {
+            width: 100%;
+            height: 280px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        .coupon {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .carousel button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>🔥 Upto 50% OFF on Select Services! 🔥</h2>
+        <input type="text" id="searchBar" placeholder="Search by Services">
+        <button onclick="searchProduct()">Search</button>
+    </header>
+    
+    <section class="services">
+        <div class="card" onclick="redirectToProduct('laundry')">
+            <img src="laundary.jpeg" alt="Laundry">
+            <p>Laundry</p>
+        </div>
+        <div class="card" onclick="redirectToProduct('dryclean')">
+            <img src="dryclean.jpeg" alt="Dry Clean">
+            <p>Dry Clean</p>
+        </div>
+        <div class="card" onclick="redirectToProduct('upholstery')">
+            <img src="upholstery.jpeg" alt="Upholstery">
+            <p>Upholstery</p>
+        </div>
+        <div class="card" onclick="redirectToProduct('steam')">
+            <img src="steam.jpeg" alt="Steam Ironing">
+            <p>Steam Ironing</p>
+        </div>
+        <div class="card" onclick="redirectToProduct('home')">
+            <img src="home.jpeg" alt="Home Cleaning">
+            <p>Home Cleaning</p>
+        </div>
+        <div class="card" onclick="redirectToProduct('products')">
+            <img src="products.jpeg" alt="Products Store">
+            <p>Products Store</p>
+        </div>
+    </section>
+    
+    <section class="carousel">
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        <div class="carousel-inner">
+            <div class="slide" onclick="redirectToProduct('dryclean')">
+                <img src="dryclean_offer.jpeg" alt="Gents Suits - Dry Cleaning Offer">
+                <div class="coupon">20% OFF - Use DRY20</div>>
+            </div>
+            <div class="slide" onclick="redirectToProduct('laundry')">
+                <img src="laundry_offer.jpeg" alt="Laundry Offer">
+                <div class="coupon">30% OFF - Use CLEAN30</div>
+            </div>
+            <div class="slide" onclick="redirectToProduct('upholstery')">
+                <img src="upholstery_offer.jpeg" alt="Upholstery Offer">
+                <div class="coupon">15% OFF - Use UPH15</div>
+            </div>
+            <div class="slide" onclick="redirectToProduct('home')">
+                <img src="home_offer.jpeg" alt="Home Cleaning Offer">
+                <div class="coupon">25% OFF - Use HOME25</div>
+            </div>
+        </div>
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+    </section>
+    
+    <script>
+        let currentIndex = 0;
+        function moveSlide(step) {
+            const slides = document.querySelector('.carousel-inner');
+            const totalSlides = document.querySelectorAll('.slide').length;
+            currentIndex = (currentIndex + step + totalSlides) % totalSlides;
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+        
+        function searchProduct() {
+            let searchQuery = document.getElementById("searchBar").value.toLowerCase();
+            const validProducts = ["laundry", "dry clean", "upholstery", "steam ironing", "home cleaning", "products store"];
+            if (validProducts.includes(searchQuery)) {
+                window.location.href = "product.html?service=" + encodeURIComponent(searchQuery);
+            } else {
+                alert("Product not found");
+            }
+        }
+        
+        function redirectToProduct(service) {
+            window.location.href = "product.html?service=" + encodeURIComponent(service);
+        }
+    </script>
+</body>
+</html>
